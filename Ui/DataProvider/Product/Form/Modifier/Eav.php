@@ -41,7 +41,6 @@ use Magento\Framework\Locale\CurrencyInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Ui\DataProvider\Modifier\ModifierInterface;
 use Mageplaza\CurrencyFormatter\Helper\Data;
-use Zend_Currency;
 
 /**
  * Class Eav
@@ -174,7 +173,7 @@ class Eav implements ModifierInterface
      * @param array $data
      * @return array
      * @throws NoSuchEntityException
-     * @throws \Zend_Currency_Exception
+     * @throws \Magento\Framework\Currency\Exception\CurrencyException
      */
     public function modifyData(array $data)
     {
@@ -206,7 +205,7 @@ class Eav implements ModifierInterface
      * @param $value
      * @return mixed
      * @throws NoSuchEntityException
-     * @throws \Zend_Currency_Exception
+     * @throws \Magento\Framework\Currency\Exception\CurrencyException
      */
     protected function formatPrice($value)
     {
@@ -215,7 +214,7 @@ class Eav implements ModifierInterface
         $decimal = (int) $config['decimal_number'];
 
         $options['precision'] = $decimal;
-        $options['display'] = Zend_Currency::NO_SYMBOL;
+        $options['display'] = \Magento\Framework\Currency\Data\Currency::NO_SYMBOL;
         $firstResult = $this->_localeCurrency->getCurrency($currency)->toCurrency($value, $options);
 
         return $firstResult;
