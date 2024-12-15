@@ -32,8 +32,6 @@ use Magento\Framework\Locale\ResolverInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Mageplaza\CurrencyFormatter\Helper\Data as HelperData;
 use Mageplaza\CurrencyFormatter\Model\Locale\DefaultFormat;
-use Zend_Currency;
-use Zend_Currency_Exception;
 
 /**
  * Class AbstractFormat
@@ -162,7 +160,7 @@ abstract class AbstractFormat
      *
      * @return mixed|string
      * @throws NoSuchEntityException
-     * @throws Zend_Currency_Exception
+     * @throws \Magento\Framework\Currency\Exception\CurrencyException
      */
     public function formatCurrencyText($currency, $price, $storeId = null)
     {
@@ -177,7 +175,7 @@ abstract class AbstractFormat
 
         $price = sprintf('%F', $price);
         $options['precision'] = $decimal;
-        $options['display'] = Zend_Currency::NO_SYMBOL;
+        $options['display'] = \Magento\Framework\Currency\Data\Currency::NO_SYMBOL;
         $firstResult = $this->_localeCurrency->getCurrency($currency)->toCurrency($price, $options);
         $finalResult = $this->_helperData->getDirectoryCurrency($firstResult, $decimal, $original, $config);
 
